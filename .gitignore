@@ -61,3 +61,8 @@ Thumbs.db
 # Dynamic deployment artifacts
 logs/
 *.pid
+
+/worktrees/
+*.db
+*.db-wal
+*.db-shm

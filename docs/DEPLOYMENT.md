@@ -1,40 +1,23 @@
 # Deployment & Operations Guide: SmartTrading
 
-## 🚀 Live Access & URLs
-- **Live Public Access URL:** [/preview/prod-smarttrading-b2c2d0/](/preview/prod-smarttrading-b2c2d0/)
-- **Internal Port:** `0`
+## 🚀 Live Access URLs
+- **Public Preview URL:** [https://river-alternatives-isolated-parker.trycloudflare.com/preview/prod-smarttrading-b2c2d0/](https://river-alternatives-isolated-parker.trycloudflare.com/preview/prod-smarttrading-b2c2d0/)
+- **Local Gateway Path:** [/preview/prod-smarttrading-b2c2d0/](/preview/prod-smarttrading-b2c2d0/)
+- **Internal Port:** `8100`
+- **Process PID:** `31477`
 - **Runtime Engine:** `python_preview`
-- **Deployment Status:** `DEPLOYED / ACTIVE`
-- **Timestamp:** `2026-09-18T01:26:33.506007+00:00`
+- **Health Status:** `HEALTHY (HTTP 200)`
+- **Deployed Timestamp:** `2026-09-18T01:26:38.930457+00:00`
 
-## 🛠️ Management & Service Control
-### Launch Command
+## 📋 Execution Command
 ```bash
-python3 app.py --port 0
+/usr/local/lib/hermes-agent/venv/bin/python3 app.py --port 8100
 ```
 
-### Health Check Probe
+## 🩺 Health Check Verification
 ```bash
-curl -I http://127.0.0.1:0/
+curl -I http://127.0.0.1:8100/
 ```
 
-### Systemd Service Template
-```ini
-[Unit]
-Description=SmartTrading Service
-After=network.target
-
-[Service]
-Type=simple
-WorkingDirectory=/root/nexus-agent-graph/workspaces/prod-smarttrading-b2c2d0
-ExecStart=/usr/bin/python3 /root/nexus-agent-graph/workspaces/prod-smarttrading-b2c2d0/app.py
-Restart=always
-RestartSec=3
-
-[Install]
-WantedBy=multi-user.target
-```
-
-## 🔒 Production Security Protocols
-- HTTP-only reverse proxy via Nexus Gateway.
-- Dedicated port allocation with zero port conflict.
+## 📜 Live Deployment Logs
+Logs are stored at `/root/nexus-agent-graph/workspaces/prod-smarttrading-b2c2d0/logs/deploy.log`.
