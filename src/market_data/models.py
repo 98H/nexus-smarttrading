@@ -1,4 +1,4 @@
-"""Domain models for market data trades and aggregated bars."""
+"""Domain models for market data trades, ticks, and aggregated bars."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime
 import math
 
-__all__ = ["Bar", "Trade"]
+__all__ = ["Bar", "OHLCVBar", "Tick", "Trade"]
 
 
 @dataclass(frozen=True)
@@ -51,3 +51,28 @@ class Bar:
     close: float
     volume: float
     close_timestamp: datetime | None = None
+
+
+@dataclass(frozen=True)
+class Tick:
+    """Represents an individual market tick event for a symbol."""
+
+    symbol: str
+    timestamp: datetime
+    price: float
+    volume: float
+
+
+@dataclass(frozen=True)
+class OHLCVBar:
+    """Represents an aggregated OHLCV bar with finalization and correction metadata."""
+
+    symbol: str
+    timestamp: datetime
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: float
+    is_finalized: bool = False
+    is_corrected: bool = False
