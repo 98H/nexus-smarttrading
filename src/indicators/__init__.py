@@ -1,5 +1,11 @@
 """Indicators package exports."""
 
+from src.indicators.order_block import (
+    OrderBlock,
+    OrderBlockTracker,
+    OrderBlockType,
+    detect_order_blocks,
+)
 from src.indicators.oscillator_matrix import (
     BoundaryClassification,
     OscillatorMatrixConfig,
@@ -12,4 +18,8 @@ __all__ = [
     "OscillatorMatrixConfig",
     "OscillatorMatrixEngine",
     "OscillatorMatrixResult",
+    "OrderBlock",
+    "OrderBlockTracker",
+    "OrderBlockType",
+    "detect_order_blocks",
 ]
