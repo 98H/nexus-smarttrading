@@ -5,6 +5,12 @@ from src.indicators.dynamic_sr import (
     SRZone,
     calculate_dynamic_sr_zones,
 )
+from src.indicators.fvg_detector import (
+    Candle,
+    FairValueGap,
+    FVGDetector,
+    FVGType,
+)
 from src.indicators.order_block import (
     OrderBlock,
     OrderBlockTracker,
@@ -30,7 +36,11 @@ from src.indicators.pitchfork import (
 
 __all__ = [
     "BoundaryClassification",
+    "Candle",
     "DynamicSRResult",
+    "FairValueGap",
+    "FVGDetector",
+    "FVGType",
     "Line",
     "OrderBlock",
     "OrderBlockTracker",
