@@ -6,7 +6,6 @@ from src.indicators.dynamic_sr import (
     calculate_dynamic_sr_zones,
 )
 from src.indicators.fvg_detector import (
-    Candle,
     FairValueGap,
     FVGDetector,
     FVGType,
@@ -33,6 +32,13 @@ from src.indicators.pitchfork import (
     modified_schiff_pitchfork,
     schiff_pitchfork,
 )
+from src.indicators.reversal_patterns import (
+    Candle,
+    ReversalResult,
+    ReversalSignal,
+    ReversalWickDetector,
+    TrendReversalZone,
+)
 
 __all__ = [
     "BoundaryClassification",
@@ -51,7 +57,11 @@ __all__ = [
     "Pitchfork",
     "PitchforkType",
     "Point",
+    "ReversalResult",
+    "ReversalSignal",
+    "ReversalWickDetector",
     "SRZone",
+    "TrendReversalZone",
     "andrews_pitchfork",
     "calculate_dynamic_sr_zones",
     "calculate_pitchfork",
