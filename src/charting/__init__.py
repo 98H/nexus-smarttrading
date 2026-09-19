@@ -12,6 +12,10 @@ from src.charting.sync_manager import (
     MultiChartSynchronizer,
     SyncManager,
 )
+from src.charting.y_axis_resolver import (
+    YAxisRange,
+    YAxisResolver,
+)
 
 __all__ = [
     "Candlestick",
@@ -21,5 +25,7 @@ __all__ = [
     "Point",
     "SnapResult",
     "SyncManager",
+    "YAxisRange",
+    "YAxisResolver",
     "snap_to_ohlc",
 ]
