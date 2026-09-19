@@ -16,7 +16,9 @@ class OrderSide(str, Enum):
 
 
 class OrderStatus(str, Enum):
+    NEW = "NEW"
     PENDING = "PENDING"
+    PARTIALLY_FILLED = "PARTIALLY_FILLED"
     FILLED = "FILLED"
     CANCELLED = "CANCELLED"
 
@@ -59,6 +61,23 @@ class PositionLot:
 
 
 @dataclass
+class Trade:
+    symbol: str
+    price: Decimal
+    quantity: Decimal
+    maker_order_id: str
+    taker_order_id: str
+    timestamp: Optional[float] = None
+    trade_id: Optional[str] = None
+
+    def __post_init__(self) -> None:
+        if self.quantity <= Decimal("0"):
+            raise ValueError(f"Quantity must be positive, got {self.quantity}")
+        if self.price <= Decimal("0"):
+            raise ValueError(f"Price must be positive, got {self.price}")
+
+
+@dataclass
 class Order:
     order_id: str
     symbol: str
@@ -72,11 +91,25 @@ class Order:
     status: OrderStatus = OrderStatus.PENDING
     filled_price: Optional[Decimal] = None
     filled_quantity: Optional[Decimal] = None
+    remaining_quantity: Optional[Decimal] = None
     created_at: Optional[datetime] = None
+    price: Optional[Decimal] = None
+    timestamp: Optional[float] = None
 
     def __post_init__(self) -> None:
         if self.quantity <= Decimal("0"):
             raise ValueError(f"Quantity must be positive, got {self.quantity}")
+
+        if self.price is not None and self.price <= Decimal("0"):
+            raise ValueError(f"Price must be positive, got {self.price}")
+
+        if self.limit_price is not None and self.limit_price <= Decimal("0"):
+            raise ValueError(f"Limit price must be positive, got {self.limit_price}")
+
+        if self.price is not None and self.limit_price is None:
+            self.limit_price = self.price
+        elif self.limit_price is not None and self.price is None:
+            self.price = self.limit_price
 
         if self.order_type == OrderType.LIMIT and self.limit_price is None:
             raise ValueError("Limit orders require a limit_price")
@@ -87,11 +120,13 @@ class Order:
         if self.order_type == OrderType.TRAILING_STOP and self.trailing_delta is None:
             raise ValueError("Trailing stop orders require a trailing_delta")
 
-        if self.limit_price is not None and self.limit_price <= Decimal("0"):
-            raise ValueError(f"Limit price must be positive, got {self.limit_price}")
-
         if self.stop_price is not None and self.stop_price <= Decimal("0"):
             raise ValueError(f"Stop price must be positive, got {self.stop_price}")
 
         if self.trailing_delta is not None and self.trailing_delta <= Decimal("0"):
             raise ValueError(f"Trailing delta must be positive, got {self.trailing_delta}")
+
+        if self.remaining_quantity is None:
+            self.remaining_quantity = self.quantity
+        elif self.remaining_quantity < Decimal("0"):
+            raise ValueError(f"Remaining quantity cannot be negative, got {self.remaining_quantity}")
