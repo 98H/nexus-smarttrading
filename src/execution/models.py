@@ -5,6 +5,11 @@ from enum import Enum
 from typing import Optional
 
 
+class PyramidingLimitBreachError(Exception):
+    """Raised when an entry lot exceeds the configured maximum pyramiding level."""
+    pass
+
+
 class OrderSide(str, Enum):
     BUY = "BUY"
     SELL = "SELL"
@@ -38,6 +43,19 @@ class ExecutionReport:
     execution_price: Decimal
     filled_quantity: Decimal
     timestamp: Optional[datetime] = None
+
+
+@dataclass
+class PositionLot:
+    lot_id: str
+    quantity: Decimal
+    price: Decimal
+
+    def __post_init__(self) -> None:
+        if self.quantity <= Decimal("0"):
+            raise ValueError(f"Quantity must be positive, got {self.quantity}")
+        if self.price <= Decimal("0"):
+            raise ValueError(f"Price must be positive, got {self.price}")
 
 
 @dataclass
